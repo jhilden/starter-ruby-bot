@@ -1,6 +1,7 @@
 require 'slack-ruby-client'
 require 'logging'
 require 'net/http'
+require 'json'
 
 logger = Logging.logger(STDOUT)
 logger.level = :debug
@@ -59,7 +60,10 @@ client.on :message do |data|
     
   when 'weather' then
     weatherinfo = Net::HTTP.get('api.openweathermap.org', '/data/2.5/weather?q=Bonn&appid=b1b15e88fa797225412429c1c50c122a')
-    client.message channel: data['channel'], text: weatherinfo
+    logger.debug(weatherinfo)
+    parsed_info = JSON.parse(weatherinfo)
+    logger.debug(parsed_info)
+    client.message channel: data['channel'], text: weatherinfo['weather']
 
   when /^bot/ then
     client.message channel: data['channel'], text: "Sorry <@#{data['user']}>, I don\'t understand. \n#{help}"
