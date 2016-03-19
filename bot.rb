@@ -63,7 +63,7 @@ client.on :message do |data|
     logger.debug(weatherinfo)
     parsed_info = JSON.parse(weatherinfo)
     logger.debug(parsed_info)
-    client.message channel: data['channel'], text: weatherinfo['weather']
+    client.message channel: data['channel'], text: parsed_info["weather"][0]["description"]
 
   when /^bot/ then
     client.message channel: data['channel'], text: "Sorry <@#{data['user']}>, I don\'t understand. \n#{help}"
