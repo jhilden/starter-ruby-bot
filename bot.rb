@@ -59,7 +59,7 @@ client.on :message do |data|
     logger.debug("A call for help") 
     
   when /weather in ([\w]+)?/ then
-    matches = data['text'].match /weather in ([\w]+)?/
+    matches = /weather in ([\w]+)?/.match data['text'] 
     logger.debug("matches: #{matches}")
     city = matches[0]
     weatherinfo = Net::HTTP.get('api.openweathermap.org', "/data/2.5/weather?q=#{city}&appid=b1b15e88fa797225412429c1c50c122a")
