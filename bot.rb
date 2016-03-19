@@ -59,11 +59,11 @@ client.on :message do |data|
     logger.debug("A call for help") 
     
   when /weather in ([\w]+)?/ then
-    logger.debug("data: #{data}")
-    weatherinfo = Net::HTTP.get('api.openweathermap.org', '/data/2.5/weather?q=Bonn&appid=b1b15e88fa797225412429c1c50c122a')
-    logger.debug(weatherinfo)
+    matches = data['text'].match /weather in ([\w]+)?/
+    logger.debug("matches: #{matches}")
+    city = matches[0]
+    weatherinfo = Net::HTTP.get('api.openweathermap.org', "/data/2.5/weather?q=#{city}&appid=b1b15e88fa797225412429c1c50c122a")
     parsed_info = JSON.parse(weatherinfo)
-    logger.debug(parsed_info)
     client.message channel: data['channel'], text: parsed_info["weather"][0]["description"]
 
   when /^bot/ then
