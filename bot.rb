@@ -63,7 +63,7 @@ client.on :message do |data|
     logger.debug("matches: #{matches}")
     city = matches[0]
     path = "/data/2.5/weather?q=#{city}&appid=b1b15e88fa797225412429c1c50c122a"
-    logger.debug("url: #{url}")
+    logger.debug("path: #{path}")
     weatherinfo = Net::HTTP.get('api.openweathermap.org', path)
     parsed_info = JSON.parse(weatherinfo)
     client.message channel: data['channel'], text: parsed_info["weather"][0]["description"]
